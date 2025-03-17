@@ -1,0 +1,80 @@
+.status-bar-container {
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.status-step {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 60px;
+  flex: 1;
+  color: white;
+  font-size: 12px;
+  clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%);
+  margin-right: -20px;
+  z-index: 1;
+}
+
+.status-step:first-child {
+  clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);
+}
+
+.status-step:last-child {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 15% 50%);
+  margin-right: 0;
+}
+
+/* Status step colors */
+.status-applied {
+  background-color: #9c9dff;
+  z-index: 5;
+}
+
+.status-interview {
+  background-color: #000000d3;
+  z-index: 4;
+}
+
+.status-updates {
+  background-color: #9c9dff;
+  z-index: 3;
+}
+
+.status-followup {
+  background-color: #000000d3;
+  z-index: 2;
+}
+
+.status-close {
+  background-color: #9c9dff;
+  z-index: 1;
+}
+
+.status-applied:hover {
+  background-color: #a3a4e0df;
+  color: rgba(255, 255, 255, 0.731);
+}
+
+.status-interview:hover {
+  background-color: #000000a9;
+  color: rgba(255, 255, 255, 0.731);
+}
+
+.status-updates:hover {
+  background-color: #a3a4e0df;
+  color: rgba(255, 255, 255, 0.731);
+}
+.status-followup:hover {
+  background-color: #000000a9;
+  color: rgba(255, 255, 255, 0.731);
+}
+.status-close:hover {
+    background-color: #a3a4e0df;
+    color: rgba(255, 255, 255, 0.731);
+  }

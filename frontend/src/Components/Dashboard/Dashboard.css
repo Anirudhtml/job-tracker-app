@@ -1,0 +1,102 @@
+.dashContainer {
+    display: flex; 
+    gap: 240px;
+    padding: 60px;
+    color: #505050;
+}
+
+.leftDash {
+    width: 13%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-left: 20px;
+    margin-top: -60px;
+
+}
+
+.rightDash {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 60%;  
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.reportDash {
+    background-color: #9c9dff;
+    border-radius: 55px;
+    width: 100%; 
+    height: 50vh; 
+    position: relative;
+    padding: 0;
+    /* border: 2px solid #000000;; */
+    
+}
+
+.reportDashInside {
+    background-color: #ffffffce;
+
+    /* border: 1px solid #000000;; */
+
+    border-radius: 45px;
+    width: 85%; 
+    height: 92%; 
+    position: absolute; 
+    left: 8%;
+    top: 4%;
+
+}
+
+.tableDash, .chartDash {
+    margin-bottom: 20px;
+}
+
+.dashHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: small;
+    margin-top: 10px ;
+
+}
+
+.plusBtn {
+    width: 30px;
+    height: 30px;
+    background-color: #A9AAFF;
+    border-radius: 50%;
+
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.plusBtn:hover {
+    background-color: #adaff588;
+    cursor: pointer;
+
+    color: #505050;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  

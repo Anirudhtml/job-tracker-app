@@ -1,0 +1,78 @@
+.form {
+    max-width: 100%;
+    width: 20%;
+    height: auto;
+    overflow: hidden;
+    padding: 20px;
+    box-sizing: border-box;
+    margin: auto;
+    background-color: #a9aaff8e !important;
+    border-radius: 12px;
+  }
+
+  .formWrapper {
+    width: 100%;
+  }
+
+.formFirstSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.closeBtn {
+    background-color: #1818188e;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+}
+
+.closeBtn:hover {
+    background-color: rgba(60, 60, 60, 0.417);
+    cursor: pointer;
+}
+
+.jobInput {
+    border: none;
+    padding: 8px;
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.735);
+    border-radius: 5px;
+
+    color: white;
+    width: 90%;
+}
+
+.jobInput:focus {
+    outline: none;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 3px;
+
+    margin: 15px 0px;
+}
+
+.addBtn {
+    width: 30px;
+    height: 30px;
+    background-color: #1818188e;
+    border-radius: 50%;
+
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    border: none;
+}
+
+.addBtn:hover {
+    background-color: rgba(60, 60, 60, 0.417);
+    cursor: pointer;
+}

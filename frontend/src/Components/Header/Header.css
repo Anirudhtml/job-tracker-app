@@ -1,0 +1,106 @@
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 65%;
+  padding: 20px;
+  width: 100%;
+}
+
+.firstLetterLogo {
+  font-weight: bold;
+  color: #9c9dff;
+  font-size: 50px !important;
+}
+
+.secondLetterLogo {
+  font-size: 20px;
+}
+
+.logo {
+  font-size: 30px;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoLink {
+  all: unset; /* Removes all default styles */
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.subTitle {
+  font-size: 10px;
+  padding: 0px;
+  margin: 0px;
+
+  color: #6416ff;
+}
+
+.logo {
+  border-bottom: none;
+}
+
+.navBtn {
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6416ff;
+  border-radius: 10px;
+  padding: 2px;
+  border-bottom: 1px solid #9c9dff;
+}
+
+.navBtn:hover {
+  border-bottom: 1px solid #d7d8fd;
+  color: #b8b8b8b7;
+  cursor: pointer;
+}
+
+.HeaderNav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 40px;
+  font-size: 13px;
+}
+
+.userImage {
+  margin: 0px;
+  padding: 0px;
+}
+
+.blur-background {
+  filter: blur(5px);
+  transition: 0.3s ease-in-out;
+  pointer-events: none; /* Prevent interaction with background */
+}
+
+/* Modal styling */
+.model {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+  }
