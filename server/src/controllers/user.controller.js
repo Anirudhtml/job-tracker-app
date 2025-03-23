@@ -2,6 +2,7 @@ import AsyncResponse from "../utlis/AsyncResponse.js";
 import { ApiError } from "../utlis/ApiError.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utlis/ApiResponse.js";
+import uploadOnCloud from "../utlis/cloudinary.js";
 import jwt from "jsonwebtoken";
 
 async function generateAcessAndRefreshToken(userId) {
@@ -32,9 +33,17 @@ const registerUser = AsyncResponse(async (req, res) => {
     throw new ApiError("User Already exists", 400);
   }
 
+  const avatarLocalPath = req.files?.avatar[0]?.path
+
+  const avatar = await uploadOnCloud(avatarLocalPath)
+  if(!avatar) {
+    throw new ApiError("could you not find avatar", 404)
+  }
+
   const user = await User.create({
     email,
     password,
+    avatar: avatar.url,
     userName: userName.toLowerCase(),
   });
 
