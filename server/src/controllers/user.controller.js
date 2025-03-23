@@ -33,11 +33,15 @@ const registerUser = AsyncResponse(async (req, res) => {
     throw new ApiError("User Already exists", 400);
   }
 
-  const avatarLocalPath = req.files?.avatar[0]?.path
+  if (!req.file && !req.file.path) {
+    throw new ApiError("Could not find the file", 400)
+  }
 
-  const avatar = await uploadOnCloud(avatarLocalPath)
-  if(!avatar) {
-    throw new ApiError("could you not find avatar", 404)
+  const avatarLocalPath = req.file.path
+  const avatar = await uploadOnCloud(avatarLocalPath);
+
+  if (!avatar) {
+    throw new ApiError("error has occured while uploding the file", 404);
   }
 
   const user = await User.create({
@@ -65,7 +69,6 @@ const registerUser = AsyncResponse(async (req, res) => {
 });
 
 const loginUser = AsyncResponse(async (req, res) => {
-
   const { email, userName, password } = req.body;
 
   if ([email || userName].some((field) => !field || field.trim() === "")) {
@@ -136,47 +139,49 @@ const logout = AsyncResponse(async (req, res) => {
     .json(new ApiResponse(200, "User logged out successfully", {}));
 });
 
-const verifyAndRefreshTokens = AsyncResponse( async (req, res) => {
-
+const verifyAndRefreshTokens = AsyncResponse(async (req, res) => {
   try {
-    const incomingRefreshToken = req.cookies?.refreshToken || req.body.refreshToken
-    if(!incomingRefreshToken) {
-      throw new ApiError("Token not provided", 400)
+    const incomingRefreshToken =
+      req.cookies?.refreshToken || req.body.refreshToken;
+    if (!incomingRefreshToken) {
+      throw new ApiError("Token not provided", 400);
     }
-    
-    const decodedUser = jwt.verify(incomingRefreshToken, process.env.SECRET_REFRESH_TOKEN)
-  
-    const user = await User.findById(decodedUser._id)
-    if(!user) {
-        throw new ApiError("Invalid or expired Token", 400)
+
+    const decodedUser = jwt.verify(
+      incomingRefreshToken,
+      process.env.SECRET_REFRESH_TOKEN
+    );
+
+    const user = await User.findById(decodedUser._id);
+    if (!user) {
+      throw new ApiError("Invalid or expired Token", 400);
     }
-  
-    if(incomingRefreshToken !== user.refreshToken) {
-      throw new ApiError("Token is not valid", 403)
+
+    if (incomingRefreshToken !== user.refreshToken) {
+      throw new ApiError("Token is not valid", 403);
     }
-  
-    const {refreshToken, accessToken} = await generateAcessAndRefreshToken(user._id)
-  
+
+    const { refreshToken, accessToken } = await generateAcessAndRefreshToken(
+      user._id
+    );
+
     user.refreshToken = refreshToken;
-    await user.save()
-  
+    await user.save();
+
     const options = {
       httpOnly: true,
       secure: true,
-      sameSite: "None"
-    }
-  
-    res
-    .status(201)
-    .cookie("refreshToken", refreshToken, options)
-    .cookie("accessToken", accessToken, options)
-    .json(
-      new ApiResponse(200, "refreshed both the token", {})
-    )
-  } catch (error) {
-      throw new ApiError(error.message, 401)
-  }
+      sameSite: "None",
+    };
 
-})
+    res
+      .status(201)
+      .cookie("refreshToken", refreshToken, options)
+      .cookie("accessToken", accessToken, options)
+      .json(new ApiResponse(200, "refreshed both the token", {}));
+  } catch (error) {
+    throw new ApiError(error.message, 401);
+  }
+});
 
 export { registerUser, loginUser, logout, verifyAndRefreshTokens };

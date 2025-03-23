@@ -1,5 +1,8 @@
 import {v2 as cloudinary} from "cloudinary"
+import dotenv from "dotenv"
 import fs from "fs"
+
+dotenv.config()
 
 cloudinary.config({ 
     cloud_name: 'dfhbsitpd', 
@@ -9,25 +12,30 @@ cloudinary.config({
 
 const uploadOnCloud = async (localFilePath) => {
     try {
-        if(!localFilePath) {
-            return null
+      if(!localFilePath) {
+        console.log("No file path provided");
+        return null;
+      }
+      
+      console.log("Attempting to upload:", localFilePath);
+      
+      const uploadResult = await cloudinary.uploader.upload(
+        localFilePath,
+        {
+          resource_type: "auto"
         }
-        const uploadResult = await cloudinary.uploader
-           .upload(
-               localFilePath,
-               {
-                resource_type: "auto"
-               }
-           )
-           .catch((error) => {
-               console.log(error);
-           });
-        
-        return uploadResult
+      );
+      
+      console.log("Upload successful:", uploadResult);
+      fs.unlinkSync(localFilePath);
+      return uploadResult;
     } catch (error) {
-        fs.unlinkSync(localFilePath)
-        return null
+      console.error("Error in uploadOnCloud:", error);
+      if(localFilePath && fs.existsSync(localFilePath)) {
+        fs.unlinkSync(localFilePath);
+      }
+      return null;
     }
-}
+  }
 
 export default uploadOnCloud
