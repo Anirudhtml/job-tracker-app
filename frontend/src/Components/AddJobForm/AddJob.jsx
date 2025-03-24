@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom"
 import { addJob } from "../../Features/Slices/JobData/JobDataSlice";
-import { openForm } from "../../Features/Slices/ui/uiSlice";
+import { openSignupForm } from "../../Features/Slices/ui/uiSlice";
 import "./AddJob.css";
 
 function AddJobForm({ setIsOpen }) {
@@ -19,7 +19,7 @@ function AddJobForm({ setIsOpen }) {
       setIsOpen(false);
     } else {
       setIsOpen(false)
-      dispatch(openForm())
+      dispatch(openSignupForm())
     }
   }
 

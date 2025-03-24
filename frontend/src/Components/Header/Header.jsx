@@ -3,15 +3,18 @@ import "./Header.css";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import LoginPage from "../Pages/LoginPage";
-import { openForm, closeForm } from "../../Features/Slices/ui/uiSlice";
+import SignupPage from "../Pages/SignupPage";
+import { closeLoginForm, closeSignupForm, openSignupForm } from "../../Features/Slices/ui/uiSlice";
+import avatar from "/7309681.jpg"
 
 function Header() {
   const dispatch = useDispatch();
 
-  const openLoginForm = useSelector((state) => state.uiSlice.isLoginFormOpen);
+  const isSignupFormOpen = useSelector((state) => state.uiSlice.isSignupFormOpen);
+  const isLoginFormOpen = useSelector((state) => state.uiSlice.isLoginFormOpen);
   const user = useSelector((state) => state.userAuth.user);
-  const auth = user.auth
-  const name = user.name
+  const auth = user?.auth || false
+  const name = user?.name 
 
   return (
     <>
@@ -35,23 +38,34 @@ function Header() {
             </>
           ) : (
             <>
-              <NavLink onClick={() => dispatch(openForm())} className="navBtn">
+              <NavLink onClick={() => dispatch(openSignupForm())} className="navBtn">
                 Join
               </NavLink>
               <div className="navBtn">Pricing</div>
+              <img className="avatarImg" src={avatar}/>
             </>
           )}
         </div>
       </div>
 
-      {openLoginForm && (
+      {isSignupFormOpen && (
         <>
           <div className="model">
             <div className="modelContent">
-              <LoginPage closeForm={() => dispatch(closeForm())} />
+              <SignupPage closeForm={() => dispatch(closeSignupForm())} />
             </div>
           </div>
         </>
+      )}
+
+      {isLoginFormOpen && (
+        <>
+        <div className="model">
+          <div className="modelContent">
+            <LoginPage closeForm={() => dispatch(closeLoginForm())} />
+          </div>
+        </div>
+      </>
       )}
     </>
   );

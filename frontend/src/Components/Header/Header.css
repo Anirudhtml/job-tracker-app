@@ -56,6 +56,12 @@
   border-bottom: 1px solid #9c9dff;
 }
 
+.avatarImg {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+}
+
 .navBtn:hover {
   border-bottom: 1px solid #d7d8fd;
   color: #b8b8b8b7;

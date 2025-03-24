@@ -1,17 +1,20 @@
 import {createSlice} from "@reduxjs/toolkit"
 
 const initialState = {
-    isLoginFormOpen: false
+    isLoginFormOpen: false,
+    isSignupFormOpen: false
 }
 
 export const uiSlice = createSlice({
     name: "ui",
     initialState,
     reducers: {
-        openForm: (state) => {state.isLoginFormOpen = true},
-        closeForm: (state) => {state.isLoginFormOpen = false}
+        openLoginForm: (state) => {state.isLoginFormOpen = true},
+        closeLoginForm: (state) => {state.isLoginFormOpen = false},
+        openSignupForm: (state) => {state.isSignupFormOpen = true},
+        closeSignupForm: (state) => {state.isSignupFormOpen = false}
     }
 })
 
-export const {openForm, closeForm} = uiSlice.actions
+export const {openLoginForm, openSignupForm, closeLoginForm, closeSignupForm} = uiSlice.actions
 export default uiSlice.reducer
