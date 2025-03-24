@@ -1,20 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Header.css";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import LoginPage from "../Pages/LoginPage";
 import SignupPage from "../Pages/SignupPage";
-import { closeLoginForm, closeSignupForm, openSignupForm } from "../../Features/Slices/ui/uiSlice";
-import avatar from "/7309681.jpg"
+import {
+  closeLoginForm,
+  closeSignupForm,
+  openSignupForm,
+} from "../../Features/Slices/ui/uiSlice";
 
 function Header() {
   const dispatch = useDispatch();
 
-  const isSignupFormOpen = useSelector((state) => state.uiSlice.isSignupFormOpen);
+  const isSignupFormOpen = useSelector(
+    (state) => state.uiSlice.isSignupFormOpen
+  );
   const isLoginFormOpen = useSelector((state) => state.uiSlice.isLoginFormOpen);
   const user = useSelector((state) => state.userAuth.user);
-  const auth = user?.auth || false
-  const name = user?.name 
+  const auth = user?.auth || false;
+  const userName = user?.userName;
+  const avatarUrl = useSelector((state) => state.userAuth.avatar);
 
   return (
     <>
@@ -34,15 +40,18 @@ function Header() {
         <div className="HeaderNav">
           {auth ? (
             <>
-              <div className="navBtn">Hi, {`${name}`}</div>
+              <div className="navBtn">Hi, {`${userName}`}</div>
+              <img className="avatarImg" src={avatarUrl} />
             </>
           ) : (
             <>
-              <NavLink onClick={() => dispatch(openSignupForm())} className="navBtn">
+              <NavLink
+                onClick={() => dispatch(openSignupForm())}
+                className="navBtn"
+              >
                 Join
               </NavLink>
               <div className="navBtn">Pricing</div>
-              <img className="avatarImg" src={avatar}/>
             </>
           )}
         </div>
@@ -60,12 +69,12 @@ function Header() {
 
       {isLoginFormOpen && (
         <>
-        <div className="model">
-          <div className="modelContent">
-            <LoginPage closeForm={() => dispatch(closeLoginForm())} />
+          <div className="model">
+            <div className="modelContent">
+              <LoginPage closeForm={() => dispatch(closeLoginForm())} />
+            </div>
           </div>
-        </div>
-      </>
+        </>
       )}
     </>
   );

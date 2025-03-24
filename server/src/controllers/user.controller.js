@@ -33,21 +33,25 @@ const registerUser = AsyncResponse(async (req, res) => {
     throw new ApiError("User Already exists", 400);
   }
 
-  if (!req.file && !req.file.path) {
-    throw new ApiError("Could not find the file", 400)
-  }
+  let avatarUrl = ""
+  console.log(req?.file)
 
-  const avatarLocalPath = req.file.path
-  const avatar = await uploadOnCloud(avatarLocalPath);
+  if (req.file) {
+    console.log("this is me", req.file)
+    const avatarLocalPath = req.file.path
+    const avatar = await uploadOnCloud(avatarLocalPath);
 
-  if (!avatar) {
-    throw new ApiError("error has occured while uploding the file", 404);
+    if (!avatar) {
+      throw new ApiError("error has occured while uploding the file", 404);
+    }
+
+    avatarUrl = avatar.url
   }
 
   const user = await User.create({
     email,
     password,
-    avatar: avatar.url,
+    avatar: avatarUrl,
     userName: userName.toLowerCase(),
   });
 
@@ -99,6 +103,7 @@ const loginUser = AsyncResponse(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: true,
+    sameSite: 'None',
   };
 
   return res
@@ -131,6 +136,7 @@ const logout = AsyncResponse(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: true,
+    sameSite: 'None',
   };
 
   return res

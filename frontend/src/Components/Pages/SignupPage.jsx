@@ -1,18 +1,60 @@
 import React, {useState} from 'react'
-import { NavLink } from 'react-router-dom'
 import {useSelector, useDispatch} from "react-redux"
-import { logIn, logOut } from "../../Features/Slices/UserAuth/UserAuth";
 import { closeSignupForm, openLoginForm } from '../../Features/Slices/ui/uiSlice';
+import { registerUser } from '../../Features/Slices/UserAuth/UserAuth';
 
 function SignupPage({closeForm}) {
 
   const dispatch = useDispatch()
 
   const [user, setUser] = useState({})
+  const [avatar, setAvatar] = useState(null)
+  const [Error, setError] = useState("")
+
+
+  const isValidated = () => {
+    if(!user.email || !user.userName || !user.password) {
+      setError("All fields are required")
+      return false
+    }
+
+    if (!/\S+@\S+\.\S+/.test(user.email)) {
+      setError('Please enter a valid email.');
+      return false;
+    }
+    if (user.password.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return false;
+    }
+    setError("")
+    return true
+
+  }
 
   function handleSubmit(e) {
-      e.preventDefault()
-      dispatch(logIn(user))
+    e.preventDefault()
+
+      if(!isValidated()) {
+        setTimeout(() => setError(""), 3000)
+        return;
+      }
+      
+      console.log("registering user now", user);
+
+      const formData = new FormData()
+      formData.append("userName", user.userName)
+      formData.append("email", user.email)
+      formData.append("password", user.password)
+
+      if(avatar) {
+        formData.append("avatar", avatar)
+      }
+      
+      dispatch(registerUser(formData))
+      .unwrap()
+      .then(() => {
+        dispatch(openLoginForm())
+      })
 
       closeForm()
   }
@@ -22,8 +64,17 @@ function SignupPage({closeForm}) {
       dispatch(openLoginForm())
   }
 
+  const handleAvatarSave = (e) => {
+    const file = e.target.files[0]
+    if(file) {
+      setAvatar(file)
+    }
+    
+  }
+
   return (
     <div className="signinFormContainer">
+      {Error && <span>{Error}</span>}
     <button onClick={closeForm} className="closeBtn">
           <svg
             fill="#FFFFFF"
@@ -63,7 +114,7 @@ function SignupPage({closeForm}) {
             <path d="M30.853 13.87a15 15 0 0 0 -29.729 4.082 15.1 15.1 0 0 0 12.876 12.918 15.6 15.6 0 0 0 2.016.13 14.85 14.85 0 0 0 7.715-2.145 1 1 0 1 0 -1.031-1.711 13.007 13.007 0 1 1 5.458-6.529 2.149 2.149 0 0 1 -4.158-.759v-10.856a1 1 0 0 0 -2 0v1.726a8 8 0 1 0 .2 10.325 4.135 4.135 0 0 0 7.83.274 15.2 15.2 0 0 0 .823-7.455z"></path>
           </g>
         </svg>
-        <input onChange={(e) => setUser((prev) => ({...prev, name: e.target.value}))} placeholder="Enter your name" className="input" type="text" />
+        <input onChange={(e) => setUser((prev) => ({...prev, userName: e.target.value}))} placeholder="Enter your name" className="input" type="text" />
       </div>
       <div className="flex-column">
         <label>Email</label>
@@ -80,6 +131,18 @@ function SignupPage({closeForm}) {
           </g>
         </svg>
         <input onChange={(e) => setUser((prev) => ({...prev, email: e.target.value}))} placeholder="Enter your Email" className="input" type="text" />
+      </div>
+      <div className="flex-column">
+        <label>Avatar (Optional)</label>
+      </div>
+      <div className="inputForm">
+      <input
+        onChange={handleAvatarSave}
+          type="file"
+          id="avatar"
+          name="avatar"
+          accept="image/*" 
+        />
       </div>
 
       <div className="flex-column">
